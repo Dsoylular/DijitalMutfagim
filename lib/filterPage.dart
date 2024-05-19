@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Widget buildFilterPage() {
   return Container(
     color: Colors.blue,
-    child: Center(
+    child: const Center(
       child: Text(
         'Filter Page',
         style: TextStyle(

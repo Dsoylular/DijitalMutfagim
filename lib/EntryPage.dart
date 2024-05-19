@@ -4,7 +4,7 @@ import 'addPage.dart';
 import 'filterPage.dart';
 
 class EntryScreen extends StatefulWidget {
-  const EntryScreen({Key? key}) : super(key: key);
+  const EntryScreen({super.key});
 
   @override
   State<EntryScreen> createState() => _EntryScreenState();
@@ -17,9 +17,9 @@ class _EntryScreenState extends State<EntryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
-            const SizedBox(width: 20),
+            SizedBox(width: 20),
             Text(
               "AI APP",
               style: TextStyle(
@@ -45,7 +45,7 @@ class _EntryScreenState extends State<EntryScreen> {
           ? _buildTariflerimPage()
           : buildBlankPage(),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.filter_list),
             label: 'Filter',
@@ -77,12 +77,12 @@ class _EntryScreenState extends State<EntryScreen> {
         Positioned(
           bottom: 20,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white, // Changed color to white
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Text(
+            child: const Text(
               "Tariflerim",
               style: TextStyle(
                 fontSize: 24,

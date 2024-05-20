@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   firebase_core: ^2.25.4
   firebase_auth: ^4.17.4
   cloud_firestore: ^4.15.2
@@ -25,6 +26,11 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  fonts:
+    - family: Pacifico
+      fonts:
+        - asset: assets/fonts/Pacifico-Regular.ttf
 
   assets:
      - assets/image1_0.jpg

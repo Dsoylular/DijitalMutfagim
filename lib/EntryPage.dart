@@ -12,7 +12,7 @@ class EntryScreen extends StatefulWidget {
 }
 
 class _EntryScreenState extends State<EntryScreen> {
-  int _selectedIndex = 1; // Index of the selected tab
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +22,10 @@ class _EntryScreenState extends State<EntryScreen> {
           children: [
             SizedBox(width: 20),
             Text(
-              "AI APP",
+              "Dijital Mutfağım",
               style: TextStyle(
                 color: Colors.white,
+                fontFamily: 'Pacifico',
               ),
             ),
           ],
@@ -49,7 +50,7 @@ class _EntryScreenState extends State<EntryScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.filter_list),
-            label: 'Filter',
+            label: 'Filtre',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.fastfood),
@@ -57,7 +58,7 @@ class _EntryScreenState extends State<EntryScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Add New', // Blank label
+            label: 'Yeni Tarif',
           ),
         ],
         currentIndex: _selectedIndex,

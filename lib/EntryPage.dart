@@ -1,3 +1,4 @@
+import 'package:ai_app_jam/tarifPage.dart';
 import 'package:flutter/material.dart';
 
 import 'addPage.dart';
@@ -42,7 +43,7 @@ class _EntryScreenState extends State<EntryScreen> {
       body: _selectedIndex == 0
           ? buildFilterPage()
           : _selectedIndex == 1
-          ? _buildTariflerimPage()
+          ? buildTariflerimPage()
           : buildBlankPage(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -51,12 +52,12 @@ class _EntryScreenState extends State<EntryScreen> {
             label: 'Filter',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Tariflerim',
+            icon: Icon(Icons.fastfood),
+            label: 'Tarifler',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.blur_on), // You can change this to any other icon
-            label: '', // Blank label
+            icon: Icon(Icons.add),
+            label: 'Add New', // Blank label
           ),
         ],
         currentIndex: _selectedIndex,
@@ -65,37 +66,6 @@ class _EntryScreenState extends State<EntryScreen> {
       ),
     );
   }
-
-  Widget _buildTariflerimPage() {
-    // Current design of Tariflerim page
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Image.asset(
-          'assets/image1_0.jpg', // Path to your image asset
-        ),
-        Positioned(
-          bottom: 20,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white, // Changed color to white
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Text(
-              "Tariflerim",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.orange,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;

@@ -11,4 +11,6 @@ Color black = Colors.black;
 Color darkGrey = Colors.black12;
 Color lightGrey = Colors.white30;
 Color cream = const Color.fromARGB(255, 245, 235, 230);
-
+// Color deniz = const Color.fromARGB(255, 15, 120, 150);
+Color deniz = const Color.fromARGB(255, 15, 135, 105);
+Color ada = const Color.fromARGB(255, 10, 220, 200);

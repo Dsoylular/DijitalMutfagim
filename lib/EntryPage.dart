@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'addPage.dart';
+import 'geminiCodes.dart';
 import 'appColors.dart';
-import 'filterPage.dart';
+import 'oneriPage.dart';
 import 'tarifPage.dart';
 
 const apiKey = 'AIzaSyBQig-uH6FnwL-9H8RkxLSuaTCqDs0xnX0';
@@ -54,15 +54,15 @@ class _EntryScreenState extends State<EntryScreen> {
         ),
       ),
       body: _selectedIndex == 0
-          ? buildFilterPage()
+          ? buildOneriPage()
           : _selectedIndex == 1
           ? buildTariflerimPage()
           : buildNewTarifPage(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.filter_list),
-            label: 'Filtre',
+            icon: Icon(Icons.casino),
+            label: 'Öner Bana!',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.fastfood),
@@ -99,7 +99,7 @@ class _EntryScreenState extends State<EntryScreen> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.orange),
+                      border: Border.all(color: Colors.transparent),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -141,7 +141,7 @@ class _EntryScreenState extends State<EntryScreen> {
                             child: TextField(
                               controller: _textFieldController,
                               decoration: InputDecoration(
-                                hintText: 'Malzemeleri giriniz...',
+                                hintText: 'Elinizdeki malzemeleri giriniz...',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -356,6 +356,160 @@ class _EntryScreenState extends State<EntryScreen> {
                   ),
                 ],
               ),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: _isProcessing,
+          child: Container(
+            color: Colors.black.withOpacity(0.5),
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildOneriPage() {
+    final TextEditingController textFieldController = TextEditingController();
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/cooking_man.jpg',
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.transparent),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Merhabalar',
+                            style: TextStyle(
+                              color: Colors.orange,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ', hadi biraz\n kendinden bahset!',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 35),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: cream,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          height: 200,
+                          child: TextField(
+                            controller: textFieldController,
+                            decoration: InputDecoration(
+                              hintText: 'Ne tür yemekler seversiniz...',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    final promt = textFieldController.text;
+                    if(promt != ""){
+                      print(promt);
+                      setState(() {
+                        _isProcessing = true;
+                      });
+                      final response = await proposeToGemini(promt);
+                      setState(() {
+                        _isProcessing = false;
+                      });
+                      if(response != null){
+                        List<String> responseWords = response.toString().split('**');
+                        String documentName = responseWords.length > 1
+                            ? '${responseWords[0]} ${responseWords[1]}'
+                            : responseWords[0];
+
+                        await FirebaseFirestore.instance
+                            .collection('tarifler')
+                            .doc('tarifPromtları')
+                            .update({
+                          documentName: {
+                            'tarif': response,
+                            'isDiary': false,
+                            'isVegan': false,
+                            'isLactose': false,
+                            'isGluten': false,
+                          }
+                        });
+                        setState(() {
+                          malzemeler.clear();
+                          isLactoseFree = false;
+                          isGlutenFree = false;
+                          isVegan = false;
+                          isDairyFree = false;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('"$documentName" başarıyla oluşturuldu!'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      }
+                      else{
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Tarif oluşturulurken hata!'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.casino_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

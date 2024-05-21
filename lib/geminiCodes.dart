@@ -13,6 +13,13 @@ Future<String?> talkWithGemini(List<String> malzemeler, List<String> limitler) a
   // print("Response from gemini is: ${response.text}");
   return response.text;
 }
+Future<String?> proposeToGemini(String promt) async {
+  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+  final message = "'$promt' u da hesaba katarak bana bir tarif öner";
+  final content = Content.text(message);
+  final response = await model.generateContent([content]);
+  return response.text;
+}
 
 String _getLimitations(List<String> limitations) {
   return limitations.join(', ');

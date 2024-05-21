@@ -122,7 +122,7 @@ class _MyTarifState extends State<MyTarif> {
                 onPressed: () async {
                   final promt = textFieldController.text;
                   if (promt.isNotEmpty) {
-                    print(promt);
+                    // print(promt);
                     await FirebaseFirestore.instance
                         .collection('tarifler')
                         .doc('tarifPromtları')

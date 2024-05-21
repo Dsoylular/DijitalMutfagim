@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,7 +10,7 @@ import 'tariflerPage.dart';
 const apiKey = 'AIzaSyBQig-uH6FnwL-9H8RkxLSuaTCqDs0xnX0';
 
 class EntryScreen extends StatefulWidget {
-  const EntryScreen({Key? key}) : super(key: key);
+  const EntryScreen({super.key});
 
   @override
   State<EntryScreen> createState() => _EntryScreenState();
@@ -21,10 +20,6 @@ class _EntryScreenState extends State<EntryScreen> {
   int _selectedIndex = 1;
   final TextEditingController _textFieldController = TextEditingController();
   List<String> malzemeler = ["pirinç", "et"];
-  // bool isLactoseFree = false;
-  // bool isGlutenFree = false;
-  // bool isVegan = false;
-  // bool isDairyFree = false;
   bool _isProcessing = false;
 
   @override
@@ -63,7 +58,7 @@ class _EntryScreenState extends State<EntryScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyTarif(),
+                    builder: (context) => const MyTarif(),
                   ),
                 );
               },
@@ -267,7 +262,7 @@ class _EntryScreenState extends State<EntryScreen> {
                         ElevatedButton(
                           onPressed: () {
                             final text = _textFieldController.text;
-                            print('Text Field Content: $text');
+                            // print('Text Field Content: $text');
                             _textFieldController.clear();
                             setState(() {
                               malzemeler.add(text);
@@ -564,7 +559,7 @@ class _EntryScreenState extends State<EntryScreen> {
                   onPressed: () async {
                     final promt = textFieldController.text;
                     if (promt.isNotEmpty) {
-                      print(promt);
+                      // print(promt);
                       setState(() {
                         _isProcessing = true;
                       });

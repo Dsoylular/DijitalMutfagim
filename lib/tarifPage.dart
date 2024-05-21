@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'appColors.dart';
@@ -32,61 +33,66 @@ Widget buildTariflerimPage() {
             ),
           ],
         ),
-        Expanded(
-          child: FutureBuilder<List<dynamic>>(
-            future: getTariflerim(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text('No data available'));
-              } else {
-                List<dynamic> tarifList = snapshot.data!;
-                return ListView.builder(
-                  itemCount: tarifList.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            print('Tapped on: ${tarifList[index]}');
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                            child: ListTile(
-                              title: Text(
+        Container(
+          height: 301,
+          color: cream,
+          child: Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: getTariflerim(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No data available'));
+                } else {
+                  List<dynamic> tarifList = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: tarifList.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              print('Tapped on: ${tarifList[index]}');
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              child: ListTile(
+                                title: Text(
                                   tarifList[index].toString(),
-                                style: TextStyle(
-                                  color: black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                                  style: TextStyle(
+                                    color: black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                                contentPadding: EdgeInsets.zero,
+                                dense: true,
                               ),
-                              contentPadding: EdgeInsets.zero,
-                              dense: true,
                             ),
                           ),
-                        ),
-                        const Divider(
-                          color: Colors.black,
-                          height: 1,
-                          thickness: 1,
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }
-            },
+                          const Divider(
+                            color: Colors.black,
+                            height: 1,
+                            thickness: 1,
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
         ),
       ],
     ),
   );
 }
+
 
 Future<List<dynamic>> getTariflerim() async {
   try {

@@ -10,7 +10,7 @@ Future<String?> talkWithGemini(List<String> malzemeler, List<String> limitler) a
       "Elimde $ingredients var. Bu malzemelerin hepsini kullanmak zorunda değilim. Bana yapabileceğim $limitations bir yemek tarifi.";
   final content = Content.text(message);
   final response = await model.generateContent([content]);
-  print("Response from gemini is: ${response.text}");
+  // print("Response from gemini is: ${response.text}");
   return response.text;
 }
 

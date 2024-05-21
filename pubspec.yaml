@@ -36,6 +36,8 @@ flutter:
   assets:
      - assets/image1_0.jpg
      - assets/cooking_man.jpg
+     - assets/grandma_cooking.jpg
+     - assets/family_cooking.jpg
 
 
 

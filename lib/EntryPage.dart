@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'geminiCodes.dart';
 import 'appColors.dart';
 import 'globalVariables.dart';
+import 'ownTarif.dart';
 import 'tariflerPage.dart';
 
 const apiKey = 'AIzaSyBQig-uH6FnwL-9H8RkxLSuaTCqDs0xnX0';
@@ -54,6 +55,21 @@ class _EntryScreenState extends State<EntryScreen> {
             ),
             IconButton(
               icon: Icon(
+                Icons.add,
+                color: (_selectedIndex == 2) ? Colors.white : Colors.transparent,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyTarif(),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: Icon(
                 Icons.filter_list,
                 color: (_selectedIndex == 1) ? Colors.white : Colors.transparent,
                 size: 30,
@@ -81,7 +97,7 @@ class _EntryScreenState extends State<EntryScreen> {
             label: 'Tarifler',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.smart_toy_outlined),
             label: 'Yeni Tarif',
           ),
         ],
@@ -350,7 +366,7 @@ class _EntryScreenState extends State<EntryScreen> {
                         ],
                       ),
                       Column(
-                        children:                        [
+                        children: [
                           Row(
                             children: [
                               Switch(
@@ -427,8 +443,8 @@ class _EntryScreenState extends State<EntryScreen> {
                         });
 
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Tarif başarıyla oluşturuldu!'),
+                          SnackBar(
+                            content: Text('$documentName başarıyla oluşturuldu!'),
                             backgroundColor: Colors.green,
                           ),
                         );
@@ -448,7 +464,7 @@ class _EntryScreenState extends State<EntryScreen> {
                       ),
                     ),
                     child: const Text(
-                      'Oluştur',
+                      'Yarat',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -469,6 +485,8 @@ class _EntryScreenState extends State<EntryScreen> {
       ],
     );
   }
+
+
 
   Widget buildOneriPage() {
     final TextEditingController textFieldController = TextEditingController();

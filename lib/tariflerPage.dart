@@ -13,7 +13,7 @@ Widget buildTariflerimPage() {
           alignment: Alignment.center,
           children: [
             Image.asset(
-              'assets/image1_0.jpg',
+              'assets/family_cooking.jpg',
             ),
             Positioned(
               bottom: 20,
@@ -117,7 +117,6 @@ Future<List<String>> getTariflerim() async {
       if (data != null) {
         List<String> filteredKeys = [];
         data.forEach((key, value) {
-          print("AAAAAAAAAA  ${value['isLactose']}   ${value['isDairy']}  ${value['isVegan']}  ${value['isGluten']}");
           if (value is Map<String, dynamic>
             && (value['isLactose'] || !isLactoseFree)
             && (value['isDiary'] || !isDairyFree)

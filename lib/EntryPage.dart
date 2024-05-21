@@ -20,7 +20,7 @@ class EntryScreen extends StatefulWidget {
 class _EntryScreenState extends State<EntryScreen> {
   int _selectedIndex = 1;
   final TextEditingController _textFieldController = TextEditingController();
-  List<String> malzemeler = [];
+  List<String> malzemeler = ["pirinç", "et"];
   // bool isLactoseFree = false;
   // bool isGlutenFree = false;
   // bool isVegan = false;
@@ -283,31 +283,33 @@ class _EntryScreenState extends State<EntryScreen> {
                     child: ListView.builder(
                       itemCount: malzemeler.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.orange, width: 2),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: ListTile(
-                            title: Text(
-                              malzemeler[index].toString(),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          child: Card(
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                malzemeler[index].toString(),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.cancel, color: Colors.red),
+                                onPressed: () {
+                                  setState(() {
+                                    malzemeler.removeAt(index);
+                                  });
+                                },
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              dense: true,
                             ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.cancel, color: Colors.red),
-                              onPressed: () {
-                                setState(() {
-                                  malzemeler.removeAt(index);
-                                });
-                              },
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                            dense: true,
                           ),
                         );
                       },
@@ -501,7 +503,7 @@ class _EntryScreenState extends State<EntryScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: ', hadi biraz\n kendinden bahset!',
+                            text: ', bugün\n ne yemek istersin?',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,

@@ -55,32 +55,39 @@ Widget buildTariflerimPage() {
                           onTap: () {
                             print('Tapped on: ${tarifList[index]}');
                           },
-                          child: Container(
-                            color: Colors.transparent,
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                            child: ListTile(
-                              title: Text(
-                                tarifList[index].toString(),
-                                style: TextStyle(
-                                  color: black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                          child: Card(
+                            elevation: 2, // Adds a shadow for better visual separation
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15), // Rounded corners
+                            ),
+                            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: ListTile(
+                                title: Text(
+                                  tarifList[index].toString(),
+                                  style: const TextStyle(
+                                    color: Colors.deepPurple,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
+                                trailing: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.deepPurple,
+                                  size: 16,
+                                ),
+                                contentPadding: EdgeInsets.zero,
+                                dense: true,
                               ),
-                              contentPadding: EdgeInsets.zero,
-                              dense: true,
                             ),
                           ),
-                        ),
-                        const Divider(
-                          color: Colors.deepPurple,
-                          height: 1,
-                          thickness: 2,
                         ),
                       ],
                     );
                   },
                 );
+
               }
             },
           ),

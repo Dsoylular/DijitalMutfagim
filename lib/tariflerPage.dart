@@ -62,9 +62,9 @@ Widget buildTariflerimPage() {
                             );
                           },
                           child: Card(
-                            elevation: 2, // Adds a shadow for better visual separation
+                            elevation: 2,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15), // Rounded corners
+                              borderRadius: BorderRadius.circular(15),
                             ),
                             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                             child: Padding(

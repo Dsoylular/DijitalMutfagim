@@ -1,3 +1,4 @@
+import 'package:ai_app_jam/recipePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -54,6 +55,12 @@ Widget buildTariflerimPage() {
                         GestureDetector(
                           onTap: () {
                             print('Tapped on: ${tarifList[index]}');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Tarif(name: tarifList[index]),
+                              ),
+                            );
                           },
                           child: Card(
                             elevation: 2, // Adds a shadow for better visual separation

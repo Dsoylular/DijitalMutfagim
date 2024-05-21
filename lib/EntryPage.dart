@@ -5,8 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'geminiCodes.dart';
 import 'appColors.dart';
 import 'globalVariables.dart';
-import 'oneriPage.dart';
-import 'tarifPage.dart';
+import 'tariflerPage.dart';
 
 const apiKey = 'AIzaSyBQig-uH6FnwL-9H8RkxLSuaTCqDs0xnX0';
 

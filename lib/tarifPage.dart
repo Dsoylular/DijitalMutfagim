@@ -98,7 +98,7 @@ Future<List<dynamic>> getTariflerim() async {
     if (snapshot.exists) {
       Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
       if (data != null) {
-        return data.values.toList();
+        return data.keys.toList();
       } else {
         print('Data is null');
       }

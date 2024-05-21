@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'geminiCodes.dart';
 import 'appColors.dart';
+import 'globalVariables.dart';
 import 'oneriPage.dart';
 import 'tarifPage.dart';
 
@@ -20,28 +21,16 @@ class _EntryScreenState extends State<EntryScreen> {
   int _selectedIndex = 1;
   final TextEditingController _textFieldController = TextEditingController();
   List<String> malzemeler = [];
-  bool isLactoseFree = false;
-  bool isGlutenFree = false;
-  bool isVegan = false;
-  bool isDairyFree = false;
+  // bool isLactoseFree = false;
+  // bool isGlutenFree = false;
+  // bool isVegan = false;
+  // bool isDairyFree = false;
   bool _isProcessing = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
-          children: [
-            SizedBox(width: 20),
-            Text(
-              "Dijital Mutfağım",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Pacifico',
-              ),
-            ),
-          ],
-        ),
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -51,6 +40,30 @@ class _EntryScreenState extends State<EntryScreen> {
               end: Alignment.bottomCenter,
             ),
           ),
+        ),
+        title: Row(
+          children: [
+            const SizedBox(width: 20),
+            const Expanded(
+              child: Text(
+                "Dijital Mutfağım",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Pacifico',
+                ),
+              ),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.filter_list,
+                color: (_selectedIndex == 1) ? Colors.white : Colors.transparent,
+                size: 30,
+              ),
+              onPressed: () {
+                _showFiltersBottomSheet(context);
+              },
+            ),
+          ],
         ),
       ),
       body: _selectedIndex == 0
@@ -84,6 +97,90 @@ class _EntryScreenState extends State<EntryScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _showFiltersBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Switch(
+                        value: isLactoseFree,
+                        onChanged: (value) {
+                          setModalState(() {
+                            isLactoseFree = value;
+                          });
+                          setState(() {
+                            isLactoseFree = value;
+                          });
+                        },
+                      ),
+                      const Text("Laktozsuz"),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Switch(
+                        value: isGlutenFree,
+                        onChanged: (value) {
+                          setModalState(() {
+                            isGlutenFree = value;
+                          });
+                          setState(() {
+                            isGlutenFree = value;
+                          });
+                        },
+                      ),
+                      const Text("Glutensiz"),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Switch(
+                        value: isVegan,
+                        onChanged: (value) {
+                          setModalState(() {
+                            isVegan = value;
+                          });
+                          setState(() {
+                            isVegan = value;
+                          });
+                        },
+                      ),
+                      const Text("Vegan"),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Switch(
+                        value: isDairyFree,
+                        onChanged: (value) {
+                          setModalState(() {
+                            isDairyFree = value;
+                          });
+                          setState(() {
+                            isDairyFree = value;
+                          });
+                        },
+                      ),
+                      const Text("Dairy-free"),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   Widget buildNewTarifPage() {
@@ -252,7 +349,7 @@ class _EntryScreenState extends State<EntryScreen> {
                         ],
                       ),
                       Column(
-                        children: [
+                        children:                        [
                           Row(
                             children: [
                               Switch(
@@ -263,7 +360,7 @@ class _EntryScreenState extends State<EntryScreen> {
                                   });
                                 },
                               ),
-                              const Text("Vegan      "),
+                              const Text("Vegan"),
                             ],
                           ),
                           const SizedBox(height: 10),
@@ -291,10 +388,10 @@ class _EntryScreenState extends State<EntryScreen> {
                         _isProcessing = true;
                       });
                       List<String> limitler = [
-                        isLactoseFree ? "laktozsuz" : "",
-                        isGlutenFree ? "glutensiz" : "",
-                        isVegan ? "vegan" : "",
-                        isDairyFree ? "dairy-free" : ""
+                        if (isLactoseFree) "laktozsuz",
+                        if (isGlutenFree) "glutensiz",
+                        if (isVegan) "vegan",
+                        if (isDairyFree) "dairy-free"
                       ];
 
                       final response = await talkWithGemini(malzemeler, limitler);
@@ -447,7 +544,7 @@ class _EntryScreenState extends State<EntryScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     final promt = textFieldController.text;
-                    if(promt != ""){
+                    if (promt.isNotEmpty) {
                       print(promt);
                       setState(() {
                         _isProcessing = true;
@@ -456,7 +553,7 @@ class _EntryScreenState extends State<EntryScreen> {
                       setState(() {
                         _isProcessing = false;
                       });
-                      if(response != null){
+                      if (response != null) {
                         List<String> responseWords = response.toString().split('**');
                         String documentName = responseWords.length > 1
                             ? '${responseWords[0]} ${responseWords[1]}'
@@ -487,8 +584,7 @@ class _EntryScreenState extends State<EntryScreen> {
                             backgroundColor: Colors.green,
                           ),
                         );
-                      }
-                      else{
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Tarif oluşturulurken hata!'),
@@ -526,3 +622,4 @@ class _EntryScreenState extends State<EntryScreen> {
     );
   }
 }
+

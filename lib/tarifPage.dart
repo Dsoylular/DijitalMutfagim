@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'appColors.dart';
+import 'globalVariables.dart';
 
 Widget buildTariflerimPage() {
   return Scaffold(
@@ -90,7 +91,7 @@ Widget buildTariflerimPage() {
 }
 
 
-Future<List<dynamic>> getTariflerim() async {
+Future<List<String>> getTariflerim() async {
   try {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection('tarifler')
@@ -100,7 +101,20 @@ Future<List<dynamic>> getTariflerim() async {
     if (snapshot.exists) {
       Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
       if (data != null) {
-        return data.keys.toList();
+        List<String> filteredKeys = [];
+        data.forEach((key, value) {
+          print("AAAAAAAAAA  ${value['isLactose']}   ${value['isDairy']}  ${value['isVegan']}  ${value['isGluten']}");
+          if (value is Map<String, dynamic>
+            && (value['isLactose'] || !isLactoseFree)
+            && (value['isDiary'] || !isDairyFree)
+            && (value['isVegan'] || !isVegan)
+            && (value['isGluten'] || !isGlutenFree)
+          ) {
+            filteredKeys.add(key);
+          }
+        });
+
+        return filteredKeys;
       } else {
         print('Data is null');
       }
@@ -112,3 +126,4 @@ Future<List<dynamic>> getTariflerim() async {
   }
   return [];
 }
+

@@ -1,16 +1,15 @@
-# ai_app_jam
+## Dijital Mutfağım 
 
-A new Flutter project.
+Dijital Mutfağım is a recipe creating app that uses AI!
 
-## Getting Started
+Just add the ingredients in your fridge, and this app will provide you with a recipe that you can follow. 
+You can also see other people's recipes and learn how to do them.
+There is a feature where you can also create recipes according to your mood, rather than ingredients.
 
-This project is a starting point for a Flutter application.
+# How to use the app?
 
-A few resources to get you started if this is your first Flutter project:
+You can simply watch this video to learn how to navigate:
+https://www.youtube.com/shorts/pgA5CZZ9z8U?feature=share
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![WhatsApp Görsel 2024-06-13 saat 15 22 11_d46e8c31](https://github.com/Dsoylular/DijitalMutfagim/assets/115221506/78e018e3-2dde-46df-acd8-eca28acc0b12)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

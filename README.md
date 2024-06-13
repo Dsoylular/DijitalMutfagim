@@ -9,7 +9,7 @@ There is a feature where you can also create recipes according to your mood, rat
 ## How to use the app?
 
 You can simply watch this video to learn how to navigate:
+
 https://www.youtube.com/shorts/pgA5CZZ9z8U?feature=share
 
-![WhatsApp Görsel 2024-06-13 saat 15 22 11_d46e8c31](https://github.com/Dsoylular/DijitalMutfagim/assets/115221506/78e018e3-2dde-46df-acd8-eca28acc0b12)
-
+<img src="https://github.com/Dsoylular/DijitalMutfagim/assets/115221506/78e018e3-2dde-46df-acd8-eca28acc0b12" alt="WhatsApp Görsel 2024-06-13 saat 15 22 11" width="400"/>

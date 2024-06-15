@@ -12,4 +12,4 @@ You can simply watch this video to learn how to navigate:
 
 https://www.youtube.com/shorts/pgA5CZZ9z8U?feature=share
 
-<img src="https://github.com/Dsoylular/DijitalMutfagim/assets/115221506/78e018e3-2dde-46df-acd8-eca28acc0b12" alt="WhatsApp Görsel 2024-06-13 saat 15 22 11" width="400"/>
+<img src="https://github.com/Dsoylular/DijitalMutfagim/assets/115221506/78e018e3-2dde-46df-acd8-eca28acc0b12" alt="WhatsApp Görsel 2024-06-13 saat 15 22 11" width="200"/>

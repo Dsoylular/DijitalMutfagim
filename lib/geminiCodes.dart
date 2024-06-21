@@ -1,9 +1,10 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 
-const apiKey = 'AIzaSyBQig-uH6FnwL-9H8RkxLSuaTCqDs0xnX0';
+import 'EntryPage.dart';
+
 
 Future<String?> talkWithGemini(List<String> malzemeler, List<String> limitler) async {
-  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey!);
   String ingredients = _getIngredients(malzemeler);
   String limitations = _getLimitations(limitler);
   final message =
@@ -14,7 +15,7 @@ Future<String?> talkWithGemini(List<String> malzemeler, List<String> limitler) a
   return response.text;
 }
 Future<String?> proposeToGemini(String promt) async {
-  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey!);
   final message = "'$promt' u da hesaba katarak bana bir tarif öner";
   final content = Content.text(message);
   final response = await model.generateContent([content]);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:lottie/lottie.dart';
 
 import 'geminiCodes.dart';
@@ -8,7 +9,7 @@ import 'globalVariables.dart';
 import 'ownTarif.dart';
 import 'tariflerPage.dart';
 
-const apiKey = 'AIzaSyBQig-uH6FnwL-9H8RkxLSuaTCqDs0xnX0';
+final apiKey = dotenv.env['API_KEY'];
 
 class EntryScreen extends StatefulWidget {
   const EntryScreen({Key? key}) : super(key: key);

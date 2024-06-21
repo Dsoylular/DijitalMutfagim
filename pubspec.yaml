@@ -18,6 +18,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_generative_ai:
   intl:
+  flutter_dotenv: ^5.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -35,6 +37,7 @@ flutter:
         - asset: assets/fonts/Pacifico-Regular.ttf
 
   assets:
+     - .env
      - assets/image1_0.jpg
      - assets/cooking_man.jpg
      - assets/grandma_cooking.jpg

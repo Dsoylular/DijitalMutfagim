@@ -1,12 +1,39 @@
 import 'package:ai_app_jam/recipePage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lottie/lottie.dart';
 import 'appColors.dart';
 import 'globalVariables.dart';
 
 Widget buildTariflerimPage() {
   return Scaffold(
-    body: Column(
+    body: TariflerimPageBody(),
+  );
+}
+
+class TariflerimPageBody extends StatefulWidget {
+  @override
+  _TariflerimPageBodyState createState() => _TariflerimPageBodyState();
+}
+
+class _TariflerimPageBodyState extends State<TariflerimPageBody> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
       children: [
         Stack(
           alignment: Alignment.center,
@@ -39,70 +66,76 @@ Widget buildTariflerimPage() {
             future: getTariflerim(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text('No data available'));
+                _controller.repeat(); // Start the animation
+                return Center(
+                  child: Lottie.asset(
+                    'assets/animations/foodAnimation.json',
+                    controller: _controller,
+                  ),
+                );
               } else {
-                List<dynamic> tarifList = snapshot.data!;
-                return ListView.builder(
-                  itemCount: tarifList.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // print('Tapped on: ${tarifList[index]}');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Tarif(name: tarifList[index]),
+                _controller.stop(); // Stop the animation
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No data available'));
+                } else {
+                  List<dynamic> tarifList = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: tarifList.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Tarif(name: tarifList[index]),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                            );
-                          },
-                          child: Card(
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: ListTile(
-                                title: Text(
-                                  tarifList[index].toString(),
-                                  style: const TextStyle(
-                                    color: Colors.deepPurple,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
+                              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: ListTile(
+                                  title: Text(
+                                    tarifList[index].toString(),
+                                    style: const TextStyle(
+                                      color: Colors.deepPurple,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
+                                  trailing: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.deepPurple,
+                                    size: 16,
+                                  ),
+                                  contentPadding: EdgeInsets.zero,
+                                  dense: true,
                                 ),
-                                trailing: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.deepPurple,
-                                  size: 16,
-                                ),
-                                contentPadding: EdgeInsets.zero,
-                                dense: true,
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-
+                        ],
+                      );
+                    },
+                  );
+                }
               }
             },
           ),
         ),
       ],
-    ),
-  );
+    );
+  }
 }
-
 
 Future<List<String>> getTariflerim() async {
   try {
@@ -117,10 +150,10 @@ Future<List<String>> getTariflerim() async {
         List<String> filteredKeys = [];
         data.forEach((key, value) {
           if (value is Map<String, dynamic>
-            && (value['isLactose'] || !isLactoseFree)
-            && (value['isDiary'] || !isDairyFree)
-            && (value['isVegan'] || !isVegan)
-            && (value['isGluten'] || !isGlutenFree)
+              && (value['isLactose'] || !isLactoseFree)
+              && (value['isDiary'] || !isDairyFree)
+              && (value['isVegan'] || !isVegan)
+              && (value['isGluten'] || !isGlutenFree)
           ) {
             filteredKeys.add(key);
           }
@@ -138,4 +171,3 @@ Future<List<String>> getTariflerim() async {
   }
   return [];
 }
-

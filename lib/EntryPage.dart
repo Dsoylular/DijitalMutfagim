@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lottie/lottie.dart';
 
 import 'geminiCodes.dart';
 import 'appColors.dart';
@@ -10,17 +11,30 @@ import 'tariflerPage.dart';
 const apiKey = 'AIzaSyBQig-uH6FnwL-9H8RkxLSuaTCqDs0xnX0';
 
 class EntryScreen extends StatefulWidget {
-  const EntryScreen({super.key});
+  const EntryScreen({Key? key}) : super(key: key);
 
   @override
   State<EntryScreen> createState() => _EntryScreenState();
 }
 
-class _EntryScreenState extends State<EntryScreen> {
+class _EntryScreenState extends State<EntryScreen> with TickerProviderStateMixin {
   int _selectedIndex = 1;
   final TextEditingController _textFieldController = TextEditingController();
   List<String> malzemeler = ["pirinç", "et"];
   bool _isProcessing = false;
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,194 +215,194 @@ class _EntryScreenState extends State<EntryScreen> {
             padding: const EdgeInsets.all(10),
             child: Center(
               child: Column(
-                children: [
+                  children: [
                   const SizedBox(height: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.transparent),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: const TextSpan(
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Merhabalar',
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ', hadi beraber\nbir tarif oluşturalım!',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 45),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: cream,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: TextField(
-                              controller: _textFieldController,
-                              decoration: InputDecoration(
-                                hintText: 'Elinizdeki malzemeleri giriniz...',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
-                              ),
-                            ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.transparent),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: const TextSpan(
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Merhabalar',
+                          style: TextStyle(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                            final text = _textFieldController.text;
-                            // print('Text Field Content: $text');
-                            _textFieldController.clear();
-                            setState(() {
-                              malzemeler.add(text);
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            'Ekle',
-                            style: TextStyle(color: Colors.white),
+                        TextSpan(
+                          text: ', hadi beraber\nbir tarif oluşturalım!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: 250,
-                    width: 350,
-                    decoration: BoxDecoration(
-                      color: cream,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ListView.builder(
-                      itemCount: malzemeler.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          child: Card(
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              const SizedBox(height: 45),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: cream,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextField(
+                          controller: _textFieldController,
+                          decoration: InputDecoration(
+                            hintText: 'Elinizdeki malzemeleri giriniz...',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
                             ),
-                            child: ListTile(
-                              title: Text(
-                                malzemeler[index].toString(),
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.cancel, color: Colors.red),
-                                onPressed: () {
-                                  setState(() {
-                                    malzemeler.removeAt(index);
-                                  });
-                                },
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                              dense: true,
-                            ),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
                           ),
-                        );
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        final text = _textFieldController.text;
+                        // print('Text Field Content: $text');
+                        _textFieldController.clear();
+                        setState(() {
+                          malzemeler.add(text);
+                        });
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text(
+                        'Ekle',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                height: 250,
+                width: 350,
+                decoration: BoxDecoration(
+                  color: cream,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ListView.builder(
+                  itemCount: malzemeler.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            malzemeler[index].toString(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.cancel, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                malzemeler.removeAt(index);
+                              });
+                            },
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          dense: true,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
                     children: [
-                      Column(
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Switch(
-                                value: isLactoseFree,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isLactoseFree = value;
-                                  });
-                                },
-                              ),
-                              const Text("Laktozsuz"),
-                            ],
+                          Switch(
+                            value: isLactoseFree,
+                            onChanged: (value) {
+                              setState(() {
+                                isLactoseFree = value;
+                              });
+                            },
                           ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Switch(
-                                value: isGlutenFree,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isGlutenFree = value;
-                                  });
-                                },
-                              ),
-                              const Text("Glutensiz"),
-                            ],
-                          ),
+                          const Text("Laktozsuz"),
                         ],
                       ),
-                      Column(
+                      const SizedBox(height: 10),
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Switch(
-                                value: isVegan,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isVegan = value;
-                                  });
-                                },
-                              ),
-                              const Text("Vegan"),
-                            ],
+                          Switch(
+                            value: isGlutenFree,
+                            onChanged: (value) {
+                              setState(() {
+                                isGlutenFree = value;
+                              });
+                            },
                           ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Switch(
-                                value: isDairyFree,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isDairyFree = value;
-                                  });
-                                },
-                              ),
-                              const Text("Dairy-free"),
-                            ],
+                          const Text("Glutensiz"),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Switch(
+                            value: isVegan,
+                            onChanged: (value) {
+                              setState(() {
+                                isVegan = value;
+                              });
+                            },
                           ),
+                          const Text("Vegan"),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Switch(
+                            value: isDairyFree,
+                            onChanged: (value) {
+                              setState(() {
+                                isDairyFree = value;
+                              });
+                            },
+                          ),
+                          const Text("Dairy-free"),
+                        ],
+                      ),
                         ],
                       ),
                     ],
@@ -472,16 +486,18 @@ class _EntryScreenState extends State<EntryScreen> {
           visible: _isProcessing,
           child: Container(
             color: Colors.black.withOpacity(0.5),
-            child: const Center(
-              child: CircularProgressIndicator(),
+            child: Center(
+              child: Lottie.asset(
+                'assets/animations/foodAnimation.json',
+                width: 100,
+                height: 100,
+              ),
             ),
           ),
         ),
       ],
     );
   }
-
-
 
   Widget buildOneriPage() {
     final TextEditingController textFieldController = TextEditingController();
@@ -563,7 +579,9 @@ class _EntryScreenState extends State<EntryScreen> {
                       setState(() {
                         _isProcessing = true;
                       });
+                      _controller.repeat();
                       final response = await proposeToGemini(promt);
+                      _controller.stop();
                       setState(() {
                         _isProcessing = false;
                       });
@@ -627,8 +645,11 @@ class _EntryScreenState extends State<EntryScreen> {
           visible: _isProcessing,
           child: Container(
             color: Colors.black.withOpacity(0.5),
-            child: const Center(
-              child: CircularProgressIndicator(),
+            child: Center(
+              child: Lottie.asset(
+                'assets/animations/foodAnimation.json',
+                controller: _controller,
+              ),
             ),
           ),
         ),
